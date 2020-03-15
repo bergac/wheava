@@ -1,18 +1,31 @@
-# WHEAVA
+# wheava
 
-Integrate your Strava activities with actual whether information.
-
-## Getting started
-Make sure you have an app defined in your Strava account.  
-Copy the code below in `src/config/stravaconfig.js`
-
+## Run locally
+Put the following in a new file `src/strava/strava-config.ts`
 ```javascript
 export const STRAVA_CONFIG = {
-    clientId: <your_strava_client_id>,
-    clientSecret: <your_strava_client_secret>,
-    redirectUri: 'http://localhost:9000' // base url of your app
+    clientId: '<YOUR_STRAVA_CLIENT_ID>',
+    clientSecret: '<YOUR_STRAVA_CLIENT_SECRET>',
 }
-export { STRAVA_CONFIG }
 ```
 
-To run a local dev server: `yarn dev`
+Then run `npm install`
+
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
