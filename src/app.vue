@@ -20,7 +20,7 @@
     @Component
     export default class App extends Vue {
         mounted() {
-            store.dispatch('user/login')
+            store.dispatch('login')
         }
     }
 </script>

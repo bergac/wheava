@@ -1,9 +1,8 @@
 import { ActionTree } from 'vuex'
 import { AppState } from '@/store'
-import { UserState } from '@/store/user/index'
 import { StravaAuthClient } from '@/strava/strava-auth-client'
 
-export const actions: ActionTree<UserState, AppState> = {
+export const appActions: ActionTree<AppState, any> = {
     login({dispatch}): void {
         const code = StravaAuthClient.authorizationCodeFromUrl();
         if (code) {
@@ -14,7 +13,7 @@ export const actions: ActionTree<UserState, AppState> = {
     },
     fetchAccessToken({commit}, authorizationCode: string): void {
         StravaAuthClient.postAuthorizationCode(authorizationCode).subscribe(
-            response => commit('saveAccessToken', response.data.access_token),
+            stravaAuthResponse => commit('saveAccessToken', stravaAuthResponse),
             error => console.log(error)
         )
     }

@@ -1,7 +1,5 @@
 import { Module } from 'vuex'
 import { AppState } from '@/store'
-import { actions } from './actions';
-import { mutations } from '@/store/user/mutations'
 
 /**
  * Model of the UserState.
@@ -10,17 +8,12 @@ import { mutations } from '@/store/user/mutations'
  */
 export interface UserState {
     name: string | undefined
-    accessToken: string | undefined
 }
 
-const state = { name: undefined, accessToken: undefined }
-
-// getters
-const getters = {
-    accessToken: (state: UserState) => {
-        return state.accessToken
-    }
-}
+const state = { name: undefined }
+const getters = { }
+const actions = { }
+const mutations = { }
 
 export const user: Module<UserState, AppState> = {
     namespaced: true,
