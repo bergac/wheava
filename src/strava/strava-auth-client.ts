@@ -3,13 +3,13 @@ import Axios from 'axios-observable'
 import { Observable, of } from 'rxjs'
 import { StravaAuthResponse } from '@/strava/api/strava-auth-response'
 import { catchError, map } from 'rxjs/operators'
-import { Fault } from '@/strava/api/types'
+import { Fault } from '@bergac/strava-v3-ts-axios'
 
 const STRAVA_URL = 'https://www.strava.com'
 
 export class StravaAuthClient {
 
-    static postAuthorizationCode(authorizationCode: string): Observable<StravaAuthResponse> {
+    static postAuthorizationCode(authorizationCode: string): Observable<StravaAuthResponse | Fault> {
         return Axios.post(`${STRAVA_URL}/oauth/token?` +
             `client_id=${STRAVA_CONFIG.clientId}&` +
             `client_secret=${STRAVA_CONFIG.clientSecret}&` +
@@ -17,10 +17,7 @@ export class StravaAuthClient {
             `grant_type=authorization_code`)
             .pipe(
                 map(response => StravaAuthResponse.fromJs(response.data)),
-                catchError((error: Fault) => {
-                    console.log(error)
-                    return of(StravaAuthResponse.fromJs())
-                })
+                catchError((error: Fault) => of(error))
             )
     }
 

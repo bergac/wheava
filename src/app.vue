@@ -4,6 +4,10 @@
 
         </header>
         <div class="pure-g main">
+            <div class="athlete" v-if="getAthlete()">
+                Name: {{getAthlete().firstname}}
+
+            </div>
             <!-- TODO implement router -->
         </div>
 
@@ -21,6 +25,10 @@
     export default class App extends Vue {
         mounted() {
             store.dispatch('login')
+        }
+
+        getAthlete() {
+            return store.state.user
         }
     }
 </script>

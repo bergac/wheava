@@ -1,4 +1,4 @@
-import { Athlete } from '@/strava/api/types'
+import { SummaryAthlete } from '@bergac/strava-v3-ts-axios'
 
 export class StravaAuthResponse {
     readonly tokenType: string
@@ -6,7 +6,7 @@ export class StravaAuthResponse {
     readonly expiresIn: Number
     readonly refreshToken: string
     readonly accessToken: string
-    readonly athlete: Athlete
+    readonly athlete: SummaryAthlete
 
     static fromJs(data?: any): StravaAuthResponse {
         data = data || {}
@@ -26,7 +26,7 @@ export class StravaAuthResponse {
                 expiresIn: Number,
                 refreshToken: string,
                 accessToken: string,
-                athlete: Athlete) {
+                athlete: SummaryAthlete) {
         this.tokenType = tokenType
         this.expiresAt = expiresAt
         this.expiresIn = expiresIn
