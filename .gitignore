@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
 /dist
-src/strava/strava-config.ts
+**/strava-config.ts
 
 # local env files
 .env.local

@@ -6,8 +6,11 @@
         <div class="pure-g main">
             <div class="athlete" v-if="getAthlete()">
                 Name: {{getAthlete().firstname}}
+                <activities>
 
+                </activities>
             </div>
+
             <!-- TODO implement router -->
         </div>
 
@@ -20,15 +23,17 @@
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
     import store from './store';
-
-    @Component
+    import Activities from '@/components/activities.vue'
+    @Component({
+        components: {Activities}
+    })
     export default class App extends Vue {
         mounted() {
             store.dispatch('login')
         }
 
         getAthlete() {
-            return store.state.user
+            return store.state.loggedInUser
         }
     }
 </script>
@@ -40,11 +45,16 @@
     }
 
     .main {
-        height: calc(100vh - 6rem)
+        height: calc(100vh - 6rem);
+        padding: 2rem;
     }
 
     header, footer {
         background-color: #599ae7;
         height: 3rem;
+    }
+
+    app {
+
     }
 </style>

@@ -17,7 +17,7 @@ export const appActions: ActionTree<AppState, any> = {
             stravaAuthResponse => commit('saveAccessToken', stravaAuthResponse),
             (fault: Fault) => {
                 console.log(fault)
-                // if (fault.errors)
+                // if (fault.errors) TODO
             }
         )
     }

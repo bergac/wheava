@@ -26,7 +26,7 @@ export class StravaAuthClient {
             `client_id=${STRAVA_CONFIG.clientId}&` +
             `client_secret=${STRAVA_CONFIG.clientSecret}&` +
             `redirect_uri=${location.href}&` +
-            `scope=read&` +
+            `scope=activity:read_all&` +
             `response_type=code`;
     }
 
