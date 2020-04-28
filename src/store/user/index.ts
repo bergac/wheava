@@ -2,8 +2,7 @@ import { ActionTree, Module, MutationTree } from 'vuex'
 import { AppState } from '@/store'
 import { ActivitiesApi, Fault, StreamsApi, StreamSet, SummaryActivity } from '@bergac/strava-v3-ts-axios'
 import moment from 'moment';
-import { createObservable } from 'axios-observable/lib/create-observable'
-import { from } from 'rxjs'
+import { fromPromise } from 'rxjs/internal-compatibility'
 
 /**
  * Model of the UserState.
@@ -25,12 +24,12 @@ const actions: ActionTree<UserState, AppState> = {
     fetchActivities({ commit, rootState, dispatch }) {
         // past week
         var sevenDaysAgoEpoch = moment().subtract(7, 'days').valueOf() / 1000;
-        from(new ActivitiesApi(rootState.stravaApiConfiguration)
+        fromPromise(new ActivitiesApi()
             // only last activity for now
             .getLoggedInAthleteActivities(undefined, sevenDaysAgoEpoch, undefined, 1))
             .subscribe(
                 response => {
-                    var latestActivity = response.data[0];
+                    const latestActivity = response.data[0];
                     commit('saveLatestActivity', latestActivity)
                     dispatch('fetchActivityStream', latestActivity.id)
                 },
@@ -42,7 +41,7 @@ const actions: ActionTree<UserState, AppState> = {
 
     },
     fetchActivityStream({ commit, rootState, dispatch }, activityId: number) {
-        from(new StreamsApi(rootState.stravaApiConfiguration).getActivityStreams(
+        fromPromise(new StreamsApi().getActivityStreams(
             activityId,
             ['latlng'],
             true))

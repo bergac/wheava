@@ -29,11 +29,13 @@
     })
     export default class App extends Vue {
         mounted() {
-            store.dispatch('login')
+            if (!!store.state.token && !store.state.token.isValid()) {
+                store.dispatch('login')
+            }
         }
 
         getAthlete() {
-            return store.state.loggedInUser
+            return store.state.user
         }
     }
 </script>

@@ -4,7 +4,12 @@ import { StravaAuthClient } from '@/strava/strava-auth-client'
 import { Fault } from '@bergac/strava-v3-ts-axios'
 
 export const appActions: ActionTree<AppState, any> = {
-    login({dispatch}): void {
+    login({dispatch, commit}): void {
+        const tokenFromStorage = sessionStorage.getItem('wheava');
+        if (tokenFromStorage) {
+            commit('saveAccessToken', JSON.parse(tokenFromStorage));
+            return;
+        }
         const code = StravaAuthClient.authorizationCodeFromUrl();
         if (code) {
             dispatch('fetchAccessToken', code)
