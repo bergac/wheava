@@ -11,11 +11,10 @@ const STRAVA_URL = 'https://www.strava.com'
 export class StravaAuthClient {
 
     static postAuthorizationCode(authorizationCode: string): Observable<StravaAuthResponse | Fault> {
-        return fromPromise(Axios.post(`${STRAVA_URL}/oauth/token?` +
+        return fromPromise(Axios.post(`/oauth/token?` +
             `client_id=${STRAVA_CONFIG.clientId}&` +
-            `client_secret=${STRAVA_CONFIG.clientSecret}&` +
-            `code=${authorizationCode}&` +
-            `grant_type=authorization_code`))
+            `authorization_code=${authorizationCode}`
+        ))
             .pipe(
                 map(response => StravaAuthResponse.fromJs(response.data)),
                 catchError((error: Fault) => of(error))

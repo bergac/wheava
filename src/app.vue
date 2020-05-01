@@ -29,7 +29,7 @@
     })
     export default class App extends Vue {
         mounted() {
-            if (!!store.state.token && !store.state.token.isValid()) {
+            if (!store.state.token || !store.state.token.isValid()) {
                 store.dispatch('login')
             }
         }

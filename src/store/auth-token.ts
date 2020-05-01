@@ -31,6 +31,6 @@ export class AuthToken {
 
     isValid(): boolean {
         // TODO
-        return true;
+        return false;
     }
 }
