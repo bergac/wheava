@@ -1,4 +1,4 @@
-import {STRAVA_CONFIG} from "./strava-config";
+const STRAVA_CONFIG = require('./strava-config').STRAVA_CONFIG;
 
 const axios = require('axios');
 

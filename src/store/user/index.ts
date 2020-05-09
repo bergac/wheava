@@ -3,6 +3,7 @@ import { AppState } from '@/store'
 import { ActivitiesApi, Fault, StreamsApi, StreamSet, SummaryActivity } from '@bergac/strava-v3-ts-axios'
 import moment from 'moment';
 import { fromPromise } from 'rxjs/internal-compatibility'
+import { AxiosResponse } from 'axios'
 
 /**
  * Model of the UserState.
@@ -10,28 +11,32 @@ import { fromPromise } from 'rxjs/internal-compatibility'
  * Hence an interface instead of an immutable class
  */
 export interface UserState {
-    latestActivity: SummaryActivity | undefined,
-    activityStream: StreamSet | undefined
+    activities: SummaryActivity[],
+    selectedActivity: SummaryActivity | undefined
+    selectedActivityStream: StreamSet | undefined
 }
 
 const state: UserState = {
-    latestActivity: undefined,
-    activityStream: undefined
+    activities: [],
+    selectedActivity: undefined,
+    selectedActivityStream: undefined
+
 }
 const getters = { }
 
 const actions: ActionTree<UserState, AppState> = {
-    fetchActivities({ commit, rootState, dispatch }) {
+    fetchActivities({ commit, rootState }) {
         // past week
         var sevenDaysAgoEpoch = moment().subtract(7, 'days').valueOf() / 1000;
-        fromPromise(new ActivitiesApi()
+        fromPromise(new ActivitiesApi({ accessToken: rootState.token?.accessToken })
             // only last activity for now
-            .getLoggedInAthleteActivities(undefined, sevenDaysAgoEpoch, undefined, 1))
+            .getLoggedInAthleteActivities(undefined, sevenDaysAgoEpoch, undefined, 10))
             .subscribe(
-                response => {
-                    const latestActivity = response.data[0];
-                    commit('saveLatestActivity', latestActivity)
-                    dispatch('fetchActivityStream', latestActivity.id)
+                (response: AxiosResponse<SummaryActivity[]>) => {
+                    // TODO doesn't match cause snake_case (response) and camelCase (api model)
+                    const activities = response.data;
+                    commit('saveActivities', activities)
+                    // dispatch('fetchActivityStream', latestActivity.id)
                 },
                 (fault: Fault) => {
                     // TODO
@@ -52,20 +57,17 @@ const actions: ActionTree<UserState, AppState> = {
 }
 
 const mutations: MutationTree<UserState> = {
-    saveLatestActivity(state: UserState, activity: SummaryActivity) {
-        state.latestActivity = activity
+    saveActivities(state: UserState, activities: SummaryActivity[]) {
+        state.activities = activities
     },
     saveActivityStream(state: UserState, activityStream: StreamSet) {
-        state.activityStream = activityStream
+        state.selectedActivityStream = activityStream
     }
 }
 
 export const userStore: Module<UserState, AppState> = {
     namespaced: true,
-    state: {
-        latestActivity: undefined,
-        activityStream: undefined
-    },
+    state,
     getters,
     actions,
     mutations

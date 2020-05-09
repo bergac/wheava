@@ -4,14 +4,7 @@
 
         </header>
         <div class="pure-g main">
-            <div class="athlete" v-if="getAthlete()">
-                Name: {{getAthlete().firstname}}
-                <activities>
-
-                </activities>
-            </div>
-
-            <!-- TODO implement router -->
+            <router-view></router-view>
         </div>
 
       <footer class="pure-u-5-5">
@@ -23,19 +16,15 @@
 <script lang="ts">
     import {Component, Vue} from 'vue-property-decorator';
     import store from './store';
-    import Activities from '@/components/activities.vue'
-    @Component({
-        components: {Activities}
-    })
+
+    @Component
     export default class App extends Vue {
         mounted() {
-            if (!store.state.token || !store.state.token.isValid()) {
-                store.dispatch('login')
+            if (this.$route.path !== '/login'
+                && (!store.state.token
+                    || !store.state.token.isValid())) {
+                    this.$router.push('/login')
             }
-        }
-
-        getAthlete() {
-            return store.state.user
         }
     }
 </script>

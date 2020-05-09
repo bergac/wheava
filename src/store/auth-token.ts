@@ -9,15 +9,15 @@ export class AuthToken {
         data = data || {}
 
         return new AuthToken(
-            data.token_type,
-            data.expires_at,
-            data.expires_in,
-            data.refresh_token,
-            data.access_token,
+            data.tokenType,
+            data.expiresAt,
+            data.expiresIn,
+            data.refreshToken,
+            data.accessToken,
         )
     }
 
-    constructor(tokenType: string,
+    private constructor(tokenType: string,
                 expiresAt: Number,
                 expiresIn: Number,
                 refreshToken: string,

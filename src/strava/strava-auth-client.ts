@@ -1,7 +1,7 @@
 import { STRAVA_CONFIG } from '@/strava/strava-config'
 import { Observable, of } from 'rxjs'
 import { StravaAuthResponse } from '@/strava/api/strava-auth-response'
-import { catchError, map } from 'rxjs/operators'
+import { catchError, filter, map } from 'rxjs/operators'
 import { Fault } from '@bergac/strava-v3-ts-axios'
 import { fromPromise } from 'rxjs/internal-compatibility'
 import Axios from 'axios'
@@ -17,23 +17,17 @@ export class StravaAuthClient {
         ))
             .pipe(
                 map(response => StravaAuthResponse.fromJs(response.data)),
+                filter(response => !!response.accessToken && !!response.athlete),
                 catchError((error: Fault) => of(error))
             )
     }
 
     static authorizationUrl() {
+        const redirectUri = `${location.origin}/login`
         return `${STRAVA_URL}/oauth/authorize?` +
             `client_id=${STRAVA_CONFIG.clientId}&` +
-            `redirect_uri=${location.href}&` +
+            `redirect_uri=${redirectUri}&` +
             `scope=activity:read_all&` +
             `response_type=code`;
-    }
-
-    static authorizationCodeFromUrl(): string | undefined {
-        const match = RegExp('[?&]code=([^&]*)').exec(location.search);
-        if (match) {
-            return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-        }
-        return undefined;
     }
 }

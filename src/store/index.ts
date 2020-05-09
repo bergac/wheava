@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex, { GetterTree, MutationTree, StoreOptions } from 'vuex'
-import { userStore } from '@/store/user'
+import { UserState, userStore } from '@/store/user'
 import { appActions } from '@/store/app-actions'
 import { SummaryAthlete } from '@bergac/strava-v3-ts-axios'
 import { StravaAuthResponse } from '@/strava/api/strava-auth-response'
@@ -22,7 +22,7 @@ const mutations: MutationTree<AppState> = {
         state.token = AuthToken.fromJs(stravaAuthResponse);
 
         sessionStorage.setItem('wheava', JSON.stringify(stravaAuthResponse));
-        Vue.prototype.$stravaClient.defaults.headers.common['Authorization'] = stravaAuthResponse.accessToken;
+        Vue.prototype.$http.defaults.headers.common['Authorization'] = stravaAuthResponse.accessToken;
         // location.href = location.origin;
     }
 };

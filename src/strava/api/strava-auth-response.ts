@@ -21,7 +21,7 @@ export class StravaAuthResponse {
         )
     }
 
-    constructor(tokenType: string,
+    private constructor(tokenType: string,
                 expiresAt: Number,
                 expiresIn: Number,
                 refreshToken: string,
