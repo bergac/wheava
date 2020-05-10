@@ -72,3 +72,6 @@ export const userStore: Module<UserState, AppState> = {
     actions,
     mutations
 }
+
+// @ts-ignore
+export const userState: UserState = userStore.state

@@ -5,16 +5,24 @@ import store from '@/store'
 import Axios from 'axios'
 import VueRouter from 'vue-router'
 import Athlete from '@/components/athlete.vue'
-import Activities from '@/components/activities.vue'
+import Activity from '@/components/activity.vue'
 import Login from '@/components/login.vue'
 import { sync } from 'vuex-router-sync'
+import 'purecss/build/pure-min.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+// TODO importing everything is not good for bundle size
+library.add(fas)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
 Vue.use(VueRx)
 Vue.use(VueRouter)
 
 const routes = [
-    {path: '/athlete/activities', component: Activities},
+    {path: '/athlete/activity/:id', component: Activity},
     {path: '/athlete', component: Athlete},
     {path: '/login', component: Login},
 ]
