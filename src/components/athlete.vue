@@ -1,30 +1,30 @@
 <template>
     <div class="athlete">
-        <div class="pure-g" v-if="!!athlete">
-            <div class="pure-u-1-1 name h1">
-                {{athlete.firstname}} {{athlete.lastname}}
-            </div>
+        <h1 class="fullname">{{athlete.firstname}} {{athlete.lastname}}</h1>
 
-            <div class="pure-u-1-1 activities-list pure-g">
-                <div class="pure-u-1-1 h2">Activities</div>
-                <div v-for="activity in activities" :key="activity.id" class="pure-u-1-3 activity">
-                    <button class="pure-button" v-on:click="routeToActivity(activity)">
-                        <font-awesome-icon v-bind:icon="forActivityType(activity)"/>
-                        {{ activity.name }} ({{ activity.start_date }})
-                    </button>
-                </div>
-            </div>
-        </div>
+        <h2>Activities</h2>
+        <md-table class="activities-list">
+            <md-table-row v-for="activity in activities"
+                 :key="activity.id"
+                 class="activity"
+                 v-on:click="routeToActivity(activity)">
+                <md-table-cell><md-icon class="icon">{{forActivityType(activity)}}</md-icon></md-table-cell>
+                <md-table-cell class="timestamp">{{ activity.start_date | formatDate }}</md-table-cell>
+                <md-table-cell class="name">{{ activity.name }}</md-table-cell>
+            </md-table-row>
+        </md-table>
     </div>
 </template>
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
     import { ActivityType, SummaryActivity, SummaryAthlete } from '@bergac/strava-v3-ts-axios'
-    import store from '@/store'
     import { userState } from '@/store/user'
+    import Activity from '@/components/activity.vue'
 
-    @Component
+    @Component({
+        components: {Activity}
+    })
     export default class Athlete extends Vue {
 
         private unsubscribe: any;
@@ -36,7 +36,7 @@
         }
 
         created(): void {
-            this.unsubscribe = store.subscribe((mutation, state) => {
+            this.unsubscribe = this.$store.subscribe((mutation, state) => {
                 if (this.athlete.id !== state.user?.id) {
                     this.athlete = state.user
                 }
@@ -54,10 +54,12 @@
             switch (activity.type) {
                 case ActivityType.Run:
                 case ActivityType.VirtualRun:
-                    return 'running'
+                    return 'directions_run'
                 case ActivityType.Ride:
                 case ActivityType.VirtualRide:
-                    return 'biking'
+                    return 'directions_bike'
+                case ActivityType.Swim:
+                    return 'pool'
                 default:
                     return 'question-circle'
             }
@@ -74,8 +76,15 @@
 </script>
 
 <style>
-    .activity {
-        margin: 0.1rem;
-        padding: 0.1rem;
+    .athlete {
+        flex: 1 1 0;
+        justify-self: center;
+        display: flex;
+        flex-direction: column;
     }
+
+    .activity {
+        cursor: pointer;
+    }
+
 </style>

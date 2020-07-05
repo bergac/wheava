@@ -1,6 +1,6 @@
-import { STRAVA_CONFIG } from '@/strava/strava-config'
+import { STRAVA_CONFIG } from '@/integration/strava/strava-config'
 import { Observable, of } from 'rxjs'
-import { StravaAuthResponse } from '@/strava/api/strava-auth-response'
+import { StravaAuthResponse } from '@/integration/strava/api/strava-auth-response'
 import { catchError, filter, map } from 'rxjs/operators'
 import { Fault } from '@bergac/strava-v3-ts-axios'
 import { fromPromise } from 'rxjs/internal-compatibility'

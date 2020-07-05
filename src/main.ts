@@ -8,14 +8,31 @@ import Athlete from '@/components/athlete.vue'
 import Activity from '@/components/activity.vue'
 import Login from '@/components/login.vue'
 import { sync } from 'vuex-router-sync'
-import 'purecss/build/pure-min.css'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/default.css'
+import moment from 'moment'
 
-// TODO importing everything is not good for bundle size
-library.add(fas)
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+
+Vue.use(VueMaterial)
+
+// @ts-ignore
+Vue.material = {
+    // @ts-ignore
+    ...Vue.material,
+    locale: {
+        // @ts-ignore
+        ...Vue.material.locale,
+        dateFormat: 'dd-MM-yyyy',
+        firstDayOfAWeek: 1
+    }
+}
+
+Vue.filter('formatDate', function (value) {
+    if (value) {
+        return moment(String(value)).format('DD MMM YYYY hh:mm')
+    }
+})
 
 Vue.config.productionTip = false
 Vue.use(VueRx)

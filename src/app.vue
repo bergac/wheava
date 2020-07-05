@@ -1,15 +1,12 @@
 <template>
-    <div id="app" class="pure-g container">
-        <header class="pure-u-5-5">
+    <div id="app" class="container">
+        <md-toolbar class="md-primary">
+            <h1 class="md-title">Wheava</h1>
+        </md-toolbar>
 
-        </header>
-        <div class="pure-g main">
+        <md-content class="md-layout main">
             <router-view></router-view>
-        </div>
-
-      <footer class="pure-u-5-5">
-
-      </footer>
+        </md-content>
     </div>
 </template>
 
@@ -37,15 +34,9 @@
 
     .main {
         height: calc(100vh - 6rem);
+        max-height: calc(100vh - 6rem);
         padding: 2rem;
-    }
-
-    header, footer {
-        background-color: #599ae7;
-        height: 3rem;
-    }
-
-    app {
-
+        display: flex;
+        justify-content: center;
     }
 </style>
