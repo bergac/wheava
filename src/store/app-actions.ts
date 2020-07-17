@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex'
 import { AppState } from '@/store'
-import { StravaAuthClient } from '@/strava/strava-auth-client'
+import { StravaAuthClient } from '@/integration/strava/strava-auth-client'
 import { Fault } from '@bergac/strava-v3-ts-axios'
 
 export const appActions: ActionTree<AppState, any> = {

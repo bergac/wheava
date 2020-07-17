@@ -3,7 +3,7 @@ import Vuex, { GetterTree, MutationTree, StoreOptions } from 'vuex'
 import { UserState, userStore } from '@/store/user'
 import { appActions } from '@/store/app-actions'
 import { SummaryAthlete } from '@bergac/strava-v3-ts-axios'
-import { StravaAuthResponse } from '@/strava/api/strava-auth-response'
+import { StravaAuthResponse } from '@/integration/strava/api/strava-auth-response'
 import { AuthToken } from '@/store/auth-token'
 
 Vue.use(Vuex)
